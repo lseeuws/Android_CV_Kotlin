@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Button
+import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -26,13 +28,34 @@ import org.jetbrains.compose.resources.painterResource
 @OptIn(ExperimentalResourceApi::class)
 @Composable
 fun App() {
-    val userData = informations()
-    MaterialTheme {
-        Row(Modifier.fillMaxWidth()) {
-            LeftColumn(userData)
-            Spacer(modifier = Modifier.padding(10.dp).background(color = Color.Cyan))
-            RightColumn(userData)
-        }
+
+
+    //Exercice CV
+
+//    val userData = informations()
+//    MaterialTheme {
+//        Row(Modifier.fillMaxWidth()) {
+//            LeftColumn(userData)
+//            Spacer(modifier = Modifier.padding(10.dp).background(color = Color.Cyan))
+//            RightColumn(userData)
+//        }
+//    }
+
+
+    // Exercice Quizz
+
+    val quizzQuestions = listOf(
+        Question(id = 0, label = "Android is great platform  ?", correctAnswerId = 1, answers = listOf(Answer(1, "Yes "), Answer(2, "No"),)),
+        Question(id = 1, label = "Capital du Brésil ?", correctAnswerId = 1, answers = listOf(Answer(1, "Brasília "), Answer(2, "Rio de Janeiro "),)),
+        Question(id = 2, label = "Quel est la couleur du cheval blanc de Henri IV ?", correctAnswerId = 2, answers = listOf(Answer(1, "blanc "), Answer(2, "gris"),)),
+        Question(id = 3, label = "Wie lange ?", correctAnswerId = 2, answers = listOf(Answer(1, "Wo"), Answer(2, "Warum"),)),
+        Question(id = 4, label = "Cual es la fecha de hoy ?", correctAnswerId = 1, answers = listOf(Answer(1, "Viernes "), Answer(2, "Jueves "),)),
+        Question(id = 5, label = "잘 지내요? ?", correctAnswerId = 1, answers = listOf(Answer(1, "예 "), Answer(2, "비 "),)),
+        )
+        MaterialTheme {
+//          welcomeScreen();
+//          ScoreScreen("10/20");
+            questionScreen(questions = quizzQuestions)
     }
 }
 
@@ -98,6 +121,23 @@ fun ListItem(competence: String, valeur: Int) {
         color = Color.Black,
         fontSize = 15.sp,
     )
+}
+
+
+
+@Composable
+fun quizz(){
+    Card(){
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Text( "Quizz", color = Color.Black, fontSize = 15.sp)
+            Text( "A simple Quizz to discovers KMP, KMM and compose", color = Color.Black, fontSize = 15.sp)
+            Button(onClick = {
+            }) {
+                Text("Start the Quizz")
+            }
+        }
+    }
+
 }
 
 expect fun getPlatformName(): String
