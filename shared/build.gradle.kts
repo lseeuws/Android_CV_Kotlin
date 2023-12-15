@@ -2,7 +2,9 @@ plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("org.jetbrains.compose")
+    kotlin("plugin.serialization") version "1.9.10"
 }
+
 
 kotlin {
     androidTarget()
@@ -23,11 +25,16 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
+                implementation("io.ktor:ktor-client-core:2.3.4") // core source of ktor
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3") // For making asynchronous calls
+                implementation("io.ktor:ktor-client-content-negotiation:2.3.4") // Simplify handling of content type based deserialization
+                implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.4") // make your dataclasses serializable
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.material)
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
+                api("moe.tlaster:precompose:1.5.7")
             }
         }
         val androidMain by getting {
@@ -35,20 +42,26 @@ kotlin {
                 api("androidx.activity:activity-compose:1.7.2")
                 api("androidx.appcompat:appcompat:1.6.1")
                 api("androidx.core:core-ktx:1.10.1")
+                implementation("io.ktor:ktor-client-android:2.3.4")
             }
         }
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
         val iosMain by creating {
+            dependencies {
+                implementation("io.ktor:ktor-client-darwin:2.3.4") //for iOS
+            }
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
+
         }
         val desktopMain by getting {
             dependencies {
                 implementation(compose.desktop.common)
+                implementation("io.ktor:ktor-client-apache:2.3.4")
             }
         }
     }

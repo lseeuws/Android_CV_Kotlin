@@ -16,12 +16,16 @@ import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import moe.tlaster.precompose.PreComposeApp
+import moe.tlaster.precompose.navigation.NavHost
+import moe.tlaster.precompose.navigation.rememberNavigator
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.painterResource
 
@@ -52,10 +56,36 @@ fun App() {
         Question(id = 4, label = "Cual es la fecha de hoy ?", correctAnswerId = 1, answers = listOf(Answer(1, "Viernes "), Answer(2, "Jueves "),)),
         Question(id = 5, label = "잘 지내요? ?", correctAnswerId = 1, answers = listOf(Answer(1, "예 "), Answer(2, "비 "),)),
         )
-        MaterialTheme {
+
+    val repository = QuizRepository()
+
+    MaterialTheme {
 //          welcomeScreen();
 //          ScoreScreen("10/20");
-            questionScreen(questions = quizzQuestions)
+//          questionScreen(questions = quizzQuestions)
+
+//        val questions = repository.questionState.collectAsState()
+//
+//        if (questions.value.isNotEmpty()) {
+//            questionScreen(questions.value)
+//        }
+
+        PreComposeApp {
+            val navigator = rememberNavigator()
+            MaterialTheme {
+                NavHost(
+                    navigator = navigator,
+                    initialRoute = "/home"
+                ) {
+                    scene(route = "/home") {
+                        val questions = repository.questionState.collectAsState()
+                        if (questions.value.isNotEmpty()) {
+                            questionScreen(questions.value)
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

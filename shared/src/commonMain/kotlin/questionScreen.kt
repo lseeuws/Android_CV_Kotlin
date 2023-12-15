@@ -2,6 +2,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -77,11 +78,21 @@ fun questionScreen(questions: List<Question>) {
                 }
             }
         }
-        else{
+        else {
             Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center, modifier = Modifier.background(color = Color.DarkGray).fillMaxSize()) {
                 Card(modifier = Modifier.padding(top = 20.dp)) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.background(color = Color.White).padding(10.dp, 2.dp, 10.dp, 10.dp)) {
                         Text("Vous avez obtenu un score de $goodAnswer !" , color = Color.Black, fontSize = 20.sp);
+                        Spacer(modifier = Modifier.height(16.dp))
+                        Button(onClick = {
+                            idQuestion = 0
+                            selectedAnswer = 1
+                            progress = 0.00f
+                            goodAnswer = 0
+                            endQuestion = false
+                        }) {
+                            Text("Recommencer")
+                        }
                     }
                 }
             }
