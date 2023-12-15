@@ -8,6 +8,7 @@ import network.QuizAPI
 class QuizRepository()  {
 
     private val quizAPI = QuizAPI()
+    private val repositoryBrut = repositoryBrut()
     private val coroutineScope = CoroutineScope(Dispatchers.Default)
 
     private var _questionState=  MutableStateFlow(listOf<Question>())
@@ -19,10 +20,19 @@ class QuizRepository()  {
 
     private suspend fun fetchQuiz(): List<Question> = quizAPI.getAllQuestions().questions
 
+    private suspend fun fetchQuizRepositoryBrut() = repositoryBrut.getAllQuestions().questions
+
     private fun updateQuiz(){
 
         coroutineScope.launch {
-            _questionState.update { fetchQuiz() }
+            try {
+                _questionState.update { fetchQuiz() }
+            }
+            catch (err: Exception) {
+                _questionState.update { fetchQuizRepositoryBrut() }
+            }
         }
     }
 }
+
+
