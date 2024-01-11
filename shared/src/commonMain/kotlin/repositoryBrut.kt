@@ -1,5 +1,4 @@
 
-
 class repositoryBrut {
 
     val quizzRepositoryBrut  = Quiz( listOf(
